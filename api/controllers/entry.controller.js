@@ -8,10 +8,11 @@ exports.create = async (req, res) => {
 		res.status(400).send({ message: "Request body cannot be empty!" });
 	}
 
-	// create a new User
+    // create user entry
 	try {
+        // find user by uuid
 		const user = await User.findOne({ where: { uuid: userUuid } });
-    
+        // create entry with userId
 		const entry = await Entry.create({
 			title,
 			body,
@@ -28,6 +29,7 @@ exports.create = async (req, res) => {
 // GET -> get all entries
 exports.getAll = async (req, res) => {
 	try {
+        // get all entries including user 
 		const entries = await Entry.findAll({ include: "user" });
 
 		return res.json(entries);
@@ -41,6 +43,7 @@ exports.getAll = async (req, res) => {
 exports.getEntry = async (req, res) => {
 	const uuid = req.params.uuid;
 	try {
+        // find entry by uuid
 		const entry = await Entry.findOne({ where: { uuid }, include: "user" });
 
 		return res.json(entry);
@@ -55,6 +58,7 @@ exports.update = async (req, res) => {
 	const uuid = req.params.uuid;
 
 	try {
+        // update entry
 		await Entry.update(req.body, { where: { uuid } }).then((num) => {
 			if (num == 1) {
 				res.json({ message: "Entry successfully updated" });

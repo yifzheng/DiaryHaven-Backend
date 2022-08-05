@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 //routes of api
 require("./api/routes/user.routes")(app);
 require("./api/routes/entry.routes")(app);
+require("./api/routes/login.routes")(app);
 
 app.listen(PORT, async () => {
 	console.log(`Server running on port ${PORT}`);
